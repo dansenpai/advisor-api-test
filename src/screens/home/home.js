@@ -3,22 +3,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from '../../components/header/';
 import RoundedCard from '../../components/rounded-card';
-import Icon from '../../components/icon';
+import { HomeWrapper,Title } from './home.styles';
 import {
   getForecast,
   getWeatherNow,
 } from '../../services/actions/forecast.actions';
-import moment from 'moment';
-import {H1, H3} from '../../components/shared.styles';
-import {
-  HomeWrapper,
-  DayWeather,
-  InfoWrapper,
-  Title,
-  Temp,
-  Text,
-  MinMax,
-} from './home.styles';
+import DayWeather from '../../components/day-weather';
 
 const Home = props => {
   const {city, state, weather, actions, forecast} = props;
@@ -32,29 +22,12 @@ const Home = props => {
     getData();
   }, []);
 
-  
   return (
     <HomeWrapper>
       <Header city={city} state={state} weather={weather} />
       <RoundedCard>
           <Title>Previsão para 7 dias</Title>
-          {forecast.map((day, index) => {
-            return (
-              <DayWeather key={index}>
-                <InfoWrapper>
-                  <H3>{moment(day.date).format('dddd')}</H3>
-                  <Text>{day.text_icon.text.pt}</Text>
-                </InfoWrapper>
-                <Temp>
-                  <Icon name={day.text_icon.icon.day} width={50} height={50}/>
-                  <MinMax>
-                    <H3>{day.temperature.max}º</H3>
-                    <H3>{day.temperature.min}º</H3>
-                  </MinMax>
-                </Temp>
-              </DayWeather>
-            )
-          })}
+          {forecast && forecast.map((day, index) => <DayWeather key={index} day={day} />)}
       </RoundedCard>
     </HomeWrapper>
   )
