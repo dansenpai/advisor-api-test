@@ -5,7 +5,7 @@ export const getForecast = () => {
     try{
       const forecast = await Api.getGeoForecast();
 
-      dispatch({type: 'GET_FORECAST', payload: {forecast: forecast.data[0]}});
+      dispatch({type: 'GET_FORECAST', payload: {forecast: forecast.data}});
     }catch(erro) { throw erro }
   }
 }
@@ -14,10 +14,10 @@ export const getWeatherNow = () => {
   return async dispatch => {
     try{
       const weather = await Api.getWeatherNow();
-      const { city, data, state} = weather;
+      const { name, data, state} = weather;
 
       dispatch({
-        type: 'GET_WEATHER_NOW', payload: { city, weather: data, state },
+        type: 'GET_WEATHER_NOW', payload: { city: name, weather: data, state },
       });
     } catch (erro) { throw erro }
   }
